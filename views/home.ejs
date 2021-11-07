@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vairosoft Lig</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        table{
+            font-size: larger;
+            font-weight: 700;
+        }
+        table thead{
+            background-color: #008641;
+        }
+        table tbody{
+            background-color: #f3e300;
+            color: black;
+        }
+        button{
+            background-color: #008641 !important;
+            color: white !important;
+            border-radius: 7px !important;
+        }
+        button:hover{
+            background-color: #f3e300 !important;
+            color: black !important;
+        }
+
+    </style>
+</head>
+<body>
+    <div  class="" style="margin-top: 60px;">
+        <div style="margin-left: 50px; margin-right: 50px;"  class="">
+            <div style="text-align: center; width: 100%; margin-top: 20px;">
+                <h1 >League Table</h1>
+            </div >
+            <table style="width: 100%; margin-top: 30px " class="table table-dark table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Position</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Played</th>
+                    <th scope="col">Won</th>
+                    <th scope="col">Drawn</th>
+                    <th scope="col">Lost</th>
+                    <th scope="col">GF</th>
+                    <th scope="col">GA</th>
+                    <th scope="col">GD</th>
+                    <th scope="col">Points</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <%teams.forEach((el,i) => {%>
+        
+                        <tr>
+                            <td><%=i+1%></td>
+                            <td><%=el.name%></td>
+                            <td><%=el.played%></td>
+                            <td><%=el.won%></td>
+                            <td><%=el.drawn%></td>
+                            <td><%=el.lost%></td>
+                            <td><%=el.gf%></td>
+                            <td><%=el.ga%></td>
+                            <td><%=el.gd%></td>
+                            <td><%=el.points%></td>
+                        </tr>
+                    <%})%>
+                
+                </tbody>
+            </table>
+        </div>
+    
+
+      
+      
+    </div>
+    
+    <div style="margin: 50px; text-align: center;">
+        <div style="display: inline-block; " >
+            <div style="text-align: center;">
+                <h2>Match Result</h2>
+                <p id="matchWeekId">asd</p>
+            </div>
+            <table style="width: 30%;  margin-left: 40px; margin-top: 40px;" class="table table-dark table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Score</th>
+                    
+                    <th scope="col">Name</th>
+                    <th>Update</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                    <%leagues.matches.forEach(el => {%>
+
+                        <tr>
+                            <td><%=el.teamName%></td>
+                            
+                            <td><%=el.fScore%> -<%=el.sScore%> </td>
+                            
+                            <td><%=el.opTeam%></td>
+                            <td>
+                                <button data-teamname="<%=el.teamName%>" data-fscore="<%=el.fScore%>" data-sscore="<%=el.sScore%>" data-opteam="<%=el.opTeam%>"  type="button"  class="btnfor btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Update</button>
+                            
+                            </td>
+                        
+                        </tr>
+                    <%})%>       
+                </tbody>
+            </table>
+        </div>
+        <div id="chanceDiv" style="display: inline-block; margin-left: 80px; text-align: center;" >
+            <div>
+                <h2>Chance</h2>
+                <p id="chanceWeekId"></p>
+            </div >
+            <table  class="table table-dark table-striped" style="margin-top: 40px;">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Chance</th>
+                
+                </tr>
+                </thead>
+                <tbody>
+                    <%chanceChamp.forEach(el => {%>
+        
+                        <tr>
+                            <td><%=el.name%></td>
+                            <td><%=el.chance%></td>
+                        
+                        </tr>
+                    <%})%>
+                
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+   
+      
+
+    <div style="text-align: center;">
+        <form action="" method="get" style="display: inline">
+            <input style="width: 20%;"  class="siralama" id="weekInput" type="hidden" name="week" value="1" > 
+            <button  onclick="onclickWeekButton()" id="nextWeekButton" type="submit"  class="btn ">Next Week</button>
+        
+        </form>
+        <form method="get" style="display: inline">
+            <input style="width: 20%;"  class="siralama"  type="hidden" name="week" value="0"  > 
+            <button  onclick="yenile(event)" id="yenileButton" type="submit" class="btn " style="margin-left: 50px; ">Play Again</button>
+        </form>
+        <form method="get" style="display: inline;">
+            <input style="width: 20%;"  class="siralama"  type="hidden" name="playAll" value="1"  > 
+            <button  id="yenileButton" type="submit"  class="btn " style="margin-left: 50px; ">Play All</button>
+        </form>
+        <div action="" style="display: inline;">
+           <a href="/api/home/info"> <button class="btn" style="margin-left: 50px; " >İnformation</button></a>
+        </div>
+       
+    </div>
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Update Score</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             <form method="post">
+                 <input type="hidden" name="week" id="weekId" value="0">
+                 <input type="text" name="teamName" id="teamNameId" style="width: 120px;"> <input type="text" name="fScore" id="fScoreId" style="width: 30px; margin-left: 30px; "><span style="font-size: x-large; font-weight: 700;"> - </span>
+                 <input type="text" name="sScore" id="sScoreId" style="width: 30px; margin-right: 30px;"> <input type="text" name="opTeam"  id="opTeamId"  style="width: 120px;"> 
+
+                 <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save changes</button>
+             </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+     
+    <script >
+        var i = 1;
+        var input = document.getElementById("weekInput");
+        var matchWeekId = document.getElementById("matchWeekId");
+        matchWeekId.innerText = localStorage.getItem("week")+". Week Match Result"
+        var chanceWeekId = document.getElementById("chanceWeekId");
+        chanceWeekId.innerText = localStorage.getItem("week")+". Week Predictions of Championship"
+        console.log(input.value)
+        var chanceDiv = document.getElementById("chanceDiv");
+        if(localStorage.getItem("week")<4){
+            chanceDiv.style.display = "none"
+        }
+      
+        //localStorage.setItem("week",input.value);
+
+        function onclickWeekButton() {
+           
+            var index = localStorage.getItem("week")
+            index++;
+
+            localStorage.setItem("week",index);
+            input.value = index;
+            if(index >6){
+                //index--
+                var a = document.getElementById("nextWeekButton")
+                a.setAttribute("disabled",true)
+            }
+        }
+        function yenile(e) {
+           // e.preventDefault()
+            localStorage.setItem("week",1);
+        }
+
+        const btn=document.getElementsByClassName("btnfor");
+        const fScoreI = document.getElementById("fScoreId")
+        const sScoreI = document.getElementById("sScoreId")
+        const teamNameI = document.getElementById("teamNameId")
+        const opTeamI = document.getElementById("opTeamId")
+        const weekI = document.getElementById("weekId")
+
+
+
+
+        const btns=[].slice.call(btn);
+           var seci=null;
+           btns.forEach(element=>{
+                element.addEventListener('click', (e) =>{
+                   
+                    seci=$(element);
+                    console.log(seci.data("sScore"))
+                    console.log(seci.data("teamname"))
+                    var teamName=seci.data("teamname");
+                    var sScore=seci.data("sscore")
+                    var fScore=seci.data("fscore");
+                    var opTeam=seci.data("opteam");
+                    fScoreI.value = fScore
+                    sScoreI.value = sScore
+                    opTeamI.value = opTeam
+                    teamNameI.value = teamName
+                    weekI.value = localStorage.getItem("week").toString()
+                   console.log( localStorage.getItem("week"))
+                    console.log(sScore+" "+teamName)
+                    // liTarih.textContent=tarih;
+                    // liSaat.textContent=saat;
+                    // textSaat.value=saat;
+                    // textTarih.value=tarih
+                    // bosmu.value=isEmpty;
+                    // if(isEmpty=="bos"){
+                    //     randevulabel.textContent="Randevu Al: ";
+                    // }else if(isEmpty=="dolu"){
+                    //     randevulabel.textContent="Randevuyu Sil: ";
+                    // }
+                })
+            })
+
+
+    </script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+    <script src="/js/home.js"></script>
+</body>
+</html>
